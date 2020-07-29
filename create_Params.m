@@ -20,7 +20,7 @@ elseif strcmp(params.task,'CL_train')
 elseif strcmp(params.task,'Auditory_Localizer') || strcmp(params.task,'Speech_Perception') || strcmp(params.task,'ObjectNaming') || strcmp(params.task,'Efields_Alone')
     params.EEGDAT = CurrBlockInfo.EEGDAT;
     params.ANALOGDATA = CurrBlockInfo.ANALOGDATA;
-elseif strcmp(params.task,'CCEP')
+elseif strcmp(params.task,'CCEP') || strcmp(params.task,'EntrainSounds')
     params.EEGDAT = CurrBlockInfo.EEGDAT;
     params.ANALOGDATA = CurrBlockInfo.ANALOGDATA;
 end
