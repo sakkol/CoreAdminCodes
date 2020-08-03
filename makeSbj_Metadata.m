@@ -14,7 +14,7 @@ Sbj_Metadata.iEEG_data = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, '
 Sbj_Metadata.results = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'results');
 Sbj_Metadata.BlockLists = makeBlockLists(Sbj_Metadata);
 
-if strcmp(project_name,'Speech_Perception') || strcmp(project_name,'ObjectNaming')
+if strcmp(project_name,'Speech_Perception') || strcmp(project_name,'ObjectNaming') || strcmp(project_name,'EntrainSounds')
     Sbj_Metadata.behavioral_root = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'behavioral');
 end
 
@@ -38,6 +38,9 @@ elseif strcmp(sbj_ID,'NS151_2')
 elseif strcmp(sbj_ID,'NS127_2')
     Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS127_02');
     Sbj_Metadata.fsname = 'NS127_02';
+elseif strcmp(sbj_ID,'LH001_2')
+    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','LH001_02');
+    Sbj_Metadata.fsname = 'LH001_02';
 else
     Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',sbj_ID);
     Sbj_Metadata.fsname = sbj_ID;

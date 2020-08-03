@@ -17,10 +17,9 @@ if strcmp(params.task,'Rest')
     params.EEGDAT = CurrBlockInfo.EEGDAT;
 elseif strcmp(params.task,'CL_train')
     params.EEGDAT = {'data.streams.Raw1' 'data.streams.Raw2'};
-elseif strcmp(params.task,'Auditory_Localizer') || strcmp(params.task,'Speech_Perception') || strcmp(params.task,'ObjectNaming') || strcmp(params.task,'Efields_Alone')
-    params.EEGDAT = CurrBlockInfo.EEGDAT;
-    params.ANALOGDATA = CurrBlockInfo.ANALOGDATA;
-elseif strcmp(params.task,'CCEP') || strcmp(params.task,'EntrainSounds')
+elseif strcmp(params.task,'Auditory_Localizer') || strcmp(params.task,'Speech_Perception') || ...
+        strcmp(params.task,'ObjectNaming') || strcmp(params.task,'Efields_Alone')  || ...
+        strcmp(params.task,'PassiveListening') || strcmp(params.task,'CCEP') || strcmp(params.task,'EntrainSounds')
     params.EEGDAT = CurrBlockInfo.EEGDAT;
     params.ANALOGDATA = CurrBlockInfo.ANALOGDATA;
 end
