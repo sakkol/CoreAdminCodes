@@ -43,7 +43,7 @@ close all
 
 %% Ploting easy to do
 cfg=[];
-cfg.view='r';           % change this if it is unilateral/bilateral: romni/lomni/omni
+cfg.view='l';           % change this if it is unilateral/bilateral: romni/lomni/omni
 cfg.showLabels='y';
 cfg.elecShape = 'sphere';
 cfg.elecSize = 1.5;
