@@ -9,7 +9,8 @@ project_name = 'Rest';
 project_name = 'CL_Train';
 project_name = 'Speech_Perception';
 project_name = 'Auditory_Localizer';
-sbj_ID = 'NS123';
+project_name = 'EntrainSounds';
+sbj_ID = 'LH001_2';
 Sbj_Metadata = makeSbj_Metadata(data_root, project_name, sbj_ID); % 'SAkkol_Stanford'
 
 %% Choose block
@@ -17,7 +18,7 @@ curr_block = Sbj_Metadata.BlockLists{2};
 
 %% create_elecinfo example, this can stay here for rapidity
 data_root = '/media/sakkol/HDD1/HBML/';
-sbj_ID = 'LH005';
+sbj_ID = 'NS142_02';
 
 cfg=[];
 cfg.subj_folder = fullfile(data_root,'DERIVATIVES','freesurfer',sbj_ID);
@@ -43,7 +44,7 @@ close all
 
 %% Ploting easy to do
 cfg=[];
-cfg.view='l';           % change this if it is unilateral/bilateral: romni/lomni/omni
+cfg.view='r';           % change this if it is unilateral/bilateral: romni/lomni/omni
 cfg.showLabels='y';
 cfg.elecShape = 'sphere';
 cfg.elecSize = 1.5;
@@ -55,4 +56,4 @@ cfg.opaqueness = .8;
 % cfg.elecColors = 'r';
 plotPialSurf(Sbj_Metadata.fsname,cfg);
 
-print(fullfile('/media/sakkol/HDD1/[PERSONAL]/Thesis_Figures','144_2_subdural_red'),'-djpeg','-r300')
+% print(fullfile('/media/sakkol/HDD1/[PERSONAL]/Thesis_Figures','144_2_subdural_red'),'-djpeg','-r300')

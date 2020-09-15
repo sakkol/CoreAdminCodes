@@ -29,6 +29,9 @@ elseif strcmp(sbj_ID,'NS128_2')
 elseif strcmp(sbj_ID,'NS144_2')
     Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS144_02');
     Sbj_Metadata.fsname = 'NS144_02';
+elseif strcmp(sbj_ID,'NS142_2')
+    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS142_02');
+    Sbj_Metadata.fsname = 'NS142_02';
 elseif strcmp(sbj_ID,'NS148_2')
     Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS148_02');
     Sbj_Metadata.fsname = 'NS148_02';
