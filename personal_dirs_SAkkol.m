@@ -18,7 +18,7 @@ curr_block = Sbj_Metadata.BlockLists{2};
 
 %% create_elecinfo example, this can stay here for rapidity
 data_root = '/media/sakkol/HDD1/HBML/';
-sbj_ID = 'NS142_02';
+sbj_ID = 'NS160';
 
 cfg=[];
 cfg.subj_folder = fullfile(data_root,'DERIVATIVES','freesurfer',sbj_ID);

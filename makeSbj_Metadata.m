@@ -61,7 +61,7 @@ searchExcel = dir(fullfile(Sbj_Metadata.freesurfer,'elec_recon'));
 for i = 1:length(searchExcel)
     tpm_2(i) = contains(searchExcel(i).name, '.xlsx') & contains(searchExcel(i).name, 'corr','IgnoreCase',true);
 end
-if sum(tpm_2) ~= 1
+if ~exist('tpm_2','var') || sum(tpm_2) ~= 1
     warning('There is either no Electrode correspondence sheet or there are many excel sheets, check and run again')
 else
     Sbj_Metadata.labelfile = fullfile(Sbj_Metadata.freesurfer,'elec_recon', searchExcel(tpm_2).name);
