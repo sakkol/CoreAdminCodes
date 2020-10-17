@@ -5,10 +5,10 @@ construct_roots(data_root,project_names)
 
 %% Creating Sbj_Metadata:
 data_root = '/media/sakkol/HDD1/HBML/';
-project_name = 'Rest';
-project_name = 'CL_Train';
-project_name = 'Speech_Perception';
-project_name = 'Auditory_Localizer';
+% project_name = 'Rest';
+% project_name = 'CL_Train';
+% project_name = 'Speech_Perception';
+% project_name = 'Auditory_Localizer';
 project_name = 'EntrainSounds';
 sbj_ID = 'LH001_2';
 Sbj_Metadata = makeSbj_Metadata(data_root, project_name, sbj_ID); % 'SAkkol_Stanford'
@@ -22,20 +22,28 @@ sbj_ID = 'NS162';
 
 cfg=[];
 cfg.subj_folder = fullfile(data_root,'DERIVATIVES','freesurfer',sbj_ID);
-cfg.fsaverage_dir = '/media/sakkol/HDD1/HBML/DERIVATIVES/freesurfer/fsaverage';
-cfg.FS_atlas_info = '/media/sakkol/HDD1/HBML/DERIVATIVES/freesurfer/Freesurfer_Atlas_Labels.xlsx';
+cfg.fsaverage_dir = fullfile(data_root,'DERIVATIVES','freesurfer','fsaverage');
+cfg.FS_atlas_info = fullfile(data_root,'DERIVATIVES','freesurfer','freesurfer','Freesurfer_Atlas_Labels.xlsx');
 create_elecInfo(sbj_ID, cfg)
 
 %% running iELVis functions if necessary
+sbj_ID = 'NS162';
+
+% for dykstra
+cfg=[];
+cfg.subj_folder = fullfile(data_root,'DERIVATIVES','freesurfer',sbj_ID);
 dykstraElecPjctmgridCoords_server(sbj_ID,0,cfg.subj_folder)
 
+% for yang-wang
 makeIniLocTxtFile(sbj_ID,'mgrid',[])
 yangWangElecPjct(sbj_ID)
 
+% for plotting depth electrode slices
 cfg=[];
 cfg.printFigs=1;
 plotAllDepthsOnSlices(sbj_ID,'mgrid',cfg)
 
+% for fsaverage electrode coordinates
 cfg=[];
 cfg.outputTextfile = 1;
 sub2AvgBrain(sbj_ID,cfg);

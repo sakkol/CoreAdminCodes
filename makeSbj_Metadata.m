@@ -2,6 +2,7 @@ function Sbj_Metadata = makeSbj_Metadata(main_root, project_name, sbj_ID)
 % based on InitializeSbj_Metadata.m (Pedro Pinheiro-Chagas, LBCN - 2019)
 % written by SAkkol - HBML, 2019
 
+%% Main part
 Sbj_Metadata = [];
 Sbj_Metadata.sbj_ID = sbj_ID;
 Sbj_Metadata.data_root = fullfile(main_root,'PROJECTS_DATA');
@@ -12,54 +13,35 @@ Sbj_Metadata.rawdata = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'ra
 Sbj_Metadata.params_dir = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'params');
 Sbj_Metadata.iEEG_data = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'iEEG_data');
 Sbj_Metadata.results = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'results');
-Sbj_Metadata.BlockLists = makeBlockLists(Sbj_Metadata);
+Sbj_Metadata.BlockLists = makeBlockLists(Sbj_Metadata); % block names from the same subjects
 
 if strcmp(project_name,'Speech_Perception') || strcmp(project_name,'ObjectNaming') || strcmp(project_name,'EntrainSounds')
     Sbj_Metadata.behavioral_root = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'behavioral');
 end
 
-
-% Define Freesurfer folder
-if strcmp(sbj_ID,'NS140_2')
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS140_02');
-    Sbj_Metadata.fsname = 'NS140_02';
-elseif strcmp(sbj_ID,'NS128_2')
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS128_02');
-    Sbj_Metadata.fsname = 'NS128_02';
-elseif strcmp(sbj_ID,'NS144_2')
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS144_02');
-    Sbj_Metadata.fsname = 'NS144_02';
-elseif strcmp(sbj_ID,'NS142_2')
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS142_02');
-    Sbj_Metadata.fsname = 'NS142_02';
-elseif strcmp(sbj_ID,'NS148_2')
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS148_02');
-    Sbj_Metadata.fsname = 'NS148_02';
-elseif strcmp(sbj_ID,'NS151_2')
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS148_02');
-    Sbj_Metadata.fsname = 'NS151_02';
-elseif strcmp(sbj_ID,'NS127_2')
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS127_02');
-    Sbj_Metadata.fsname = 'NS127_02';
-elseif strcmp(sbj_ID,'LH001_2')
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','LH001_02');
-    Sbj_Metadata.fsname = 'LH001_02';
-elseif strcmp(sbj_ID,'NS160_2')
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer','NS160_02');
-    Sbj_Metadata.fsname = 'NS160_02';
-else
+%% Define Freesurfer folder
+splsbj_ID = strsplit(sbj_ID);
+if length(splsbj_ID) == 1
     Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',sbj_ID);
     Sbj_Metadata.fsname = sbj_ID;
+else
+    if length(splsbj_ID{2}) > 1     % if the name is like NS128_02, this is also fine
+        Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',sbj_ID);
+        Sbj_Metadata.fsname = sbj_ID;
+    else                            % if the name is like NS128_2, then put a "0" between "_" and "2"
+        Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',[splsbj_ID{1} '0' splsbj_ID{2}]);
+        Sbj_Metadata.fsname = sbj_ID;
+    end
 end
-
-% Define fsaverage folder
-Sbj_Metadata.fsaverage_Dir = fullfile(main_root, 'DERIVATIVES','freesurfer','fsaverage');
-
 if ~exist(Sbj_Metadata.freesurfer,'dir')
     warning('There is no Freesurfer folder')
     Sbj_Metadata.freesurfer = [];
 end
 
+% Define fsaverage folder
+Sbj_Metadata.fsaverage_Dir = fullfile(main_root, 'DERIVATIVES','freesurfer','fsaverage');
+
+%% Find the electrode correspondence sheet
 searchExcel = dir(fullfile(Sbj_Metadata.freesurfer,'elec_recon'));
 for i = 1:length(searchExcel)
     tpm_2(i) = contains(searchExcel(i).name, '.xlsx') & contains(searchExcel(i).name, 'corr','IgnoreCase',true);
@@ -70,6 +52,7 @@ else
     Sbj_Metadata.labelfile = fullfile(Sbj_Metadata.freesurfer,'elec_recon', searchExcel(tpm_2).name);
 end
 
+%% Create the directories
 mkdir_Sbj_Metadata(Sbj_Metadata)
 
 end
