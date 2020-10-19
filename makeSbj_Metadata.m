@@ -13,14 +13,15 @@ Sbj_Metadata.rawdata = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'ra
 Sbj_Metadata.params_dir = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'params');
 Sbj_Metadata.iEEG_data = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'iEEG_data');
 Sbj_Metadata.results = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'results');
-Sbj_Metadata.BlockLists = makeBlockLists(Sbj_Metadata); % block names from the same subjects
 
 if strcmp(project_name,'Speech_Perception') || strcmp(project_name,'ObjectNaming') || strcmp(project_name,'EntrainSounds')
     Sbj_Metadata.behavioral_root = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'behavioral');
 end
 
+Sbj_Metadata.BlockLists = makeBlockLists(Sbj_Metadata); % block names from the same subjects
+
 %% Define Freesurfer folder
-splsbj_ID = strsplit(sbj_ID);
+splsbj_ID = strsplit(sbj_ID,'_');
 if length(splsbj_ID) == 1
     Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',sbj_ID);
     Sbj_Metadata.fsname = sbj_ID;
@@ -29,7 +30,7 @@ else
         Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',sbj_ID);
         Sbj_Metadata.fsname = sbj_ID;
     else                            % if the name is like NS128_2, then put a "0" between "_" and "2"
-        Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',[splsbj_ID{1} '0' splsbj_ID{2}]);
+        Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',[splsbj_ID{1} '_0' splsbj_ID{2}]);
         Sbj_Metadata.fsname = sbj_ID;
     end
 end
