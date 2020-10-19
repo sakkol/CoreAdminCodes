@@ -1,5 +1,5 @@
 # CoreAdminCodes
-Matlab-based administrative functions to generate and manage the folders and files for different projects with common structure.
+Matlab-based administrative functions to generate and manage the folders and files for different projects using common structure.
 
 ## Folder Structure
 data_root is where 'PROJECTS_DATA' and 'DERIVATIVES' folders are located.
@@ -59,7 +59,7 @@ Following example folder structure is for **ObjectNaming** project with subject 
             └── ObjectNaming_BlockInfo.xlsx
 ```
 
-## Helper Functions
+## Common Helper Functions & Metadata
 
 personal_dirs_SAkkol.m script has examples for common functions used for each project:
 - If switching to a new hard-drive or computer, new folders can be created like this:
@@ -77,4 +77,60 @@ project_name = 'Rest';
 sbj_ID = 'sbj_ID1';
 Sbj_Metadata = makeSbj_Metadata(data_root, project_name, sbj_ID); % 'SAkkol_Stanford'
 ```
-- Another important highlight of the CoreAdminCores is Sbj_Metadata structure. 
+- Another important highlight of the CoreAdminCores is Sbj_Metadata structure. Sbj_Metadata contains necessary directories where the files are located and paths to several important files. An example Sbj_Metadata is the following:
+``` Matlab
+Sbj_Metadata = 
+  struct with fields:
+
+             sbj_ID: 'NS157'
+          data_root: '/media/sakkol/HDD1/HBML/PROJECTS_DATA'
+       project_name: 'ObjectNaming'
+       project_root: '/media/sakkol/HDD1/HBML/PROJECTS_DATA/ObjectNaming'
+             sbjDir: '/media/sakkol/HDD1/HBML/PROJECTS_DATA/ObjectNaming/NS157'
+            rawdata: '/media/sakkol/HDD1/HBML/PROJECTS_DATA/ObjectNaming/NS157/raw'
+         params_dir: '/media/sakkol/HDD1/HBML/PROJECTS_DATA/ObjectNaming/NS157/params'
+          iEEG_data: '/media/sakkol/HDD1/HBML/PROJECTS_DATA/ObjectNaming/NS157/iEEG_data'
+            results: '/media/sakkol/HDD1/HBML/PROJECTS_DATA/ObjectNaming/NS157/results'
+    behavioral_root: '/media/sakkol/HDD1/HBML/PROJECTS_DATA/ObjectNaming/NS157/behavioral'
+         BlockLists: {3×1 cell}
+         freesurfer: '/media/sakkol/HDD1/HBML/DERIVATIVES/freesurfer/NS157'
+             fsname: 'NS157'
+      fsaverage_Dir: '/media/sakkol/HDD1/HBML/DERIVATIVES/freesurfer/fsaverage'
+          labelfile: '/media/sakkol/HDD1/HBML/DERIVATIVES/freesurfer/NS157/elec_recon/NS157_Electrodes_Natus_TDT_correspondence.xlsx'
+```
+- Several examples how Sbj_Metadata structure can be helpful:
+``` Matlab
+% Loading data:
+load(fullfile(Sbj_Metadata.iEEG_data, curr_block, [curr_block '_ecog.mat']))
+load(fullfile(Sbj_Metadata.iEEG_data,curr_block,[curr_block '_info.mat']))
+
+% Saving data
+save(fullfile(Sbj_Metadata.iEEG_data, curr_block, [curr_block '_ecog.mat']),'ecog','-v7.3');
+print(fullfile(Sbj_Metadata.iEEG_data,curr_block,'PICS','events.jpg'),'-djpeg','-r300')
+
+% Running analysis with fewer inputs
+pre  = 1;
+post = 4.5;
+run_waveletTF(Sbj_Metadata,blockname);
+```
+- Another important aspect is to have the "*PROJECTNAME_BlockInfo.xlsx*" sheet, which has information for each blocks (=runs).
+``` Matlab
+% Selecting subjects directly from BlockInfo sheet
+data_root = '/media/sakkol/HDD1/HBML/';
+project_name = 'Rest';
+AllBlockInfo = readtable(fullfile(data_root,'PROJECTS_DATA',project_name,[project_name '_BlockInfo.xlsx']));
+subjects = unique(AllBlockInfo.sbj_ID);
+[indx,~] = listdlg('ListString',subjects);
+
+% Combined with Sbj_Metadata, it's easy to run anything in loop
+for s = 1:length(indx)
+    sbj_ID = subjects{indx(s)};
+    Sbj_Metadata = makeSbj_Metadata(data_root, project_name, sbj_ID); % 'SAkkol_Stanford'
+    whichblocks = AllBlockInfo.BlockList(ismember(AllBlockInfo.sbj_ID,sbj_ID) & AllBlockInfo.ready==1 & isnan(AllBlockInfo.wlt_ready));
+    for b = 1:length(whichblocks)
+        curr_block = whichblocks{b};
+        fprintf('Running wavelet for %s: block %s\n',sbj_ID,curr_block)
+        run_wltTF(Sbj_Metadata,curr_block)
+    end
+end
+```
