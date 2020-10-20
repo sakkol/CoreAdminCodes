@@ -1,8 +1,8 @@
 function [data2bids_output] = ecog2bids(cfg,ecog,info)
-
-% TODO
-% HOW TO GET EVENTS FILE INTO CFG.EVENTS
-% EITHER IN CFG OR ALREADY PROCESSED
+% This function creates a BIDS formatted folder structure using the
+% information in ecog and info variables. Only requirement for cfg
+% is "bidsroot" field, which points out where BIDS root is (=where)
+% subject folders are.
 
 %% Input check
 if isstring(ecog)
@@ -19,6 +19,10 @@ if isstring(info)
     info=tmp;clear tmp
 elseif isstruct(info)
     fprintf('Assuming input info is an info data.\n')
+end
+% check events if they have onset and duration columns
+if ~any(ismember(info.events.Properties.VariableNames, 'onset')) || ~any(ismember(info.events.Properties.VariableNames,'duration'))
+    error('Sorry but events table should contain "onset" and "duration" columns, requirement of BIDS :(')
 end
 
 if ~isfield(cfg,'bidsroot')
@@ -53,7 +57,7 @@ cfg.sub                     = sub;
 cfg.ses                     = ses;
 cfg.run                     = ecog.params.block;
 cfg.task                    = ecog.task;
-cfg.datatype                = 'ieeg';%string, can be any of 'FLAIR', 'FLASH', 'PD', 'PDT2', 'PDmap', 'T1map', 'T1rho', 'T1w', 'T2map', 'T2star', 'T2w', 'angio', 'bold', 'bval', 'bvec', 'channels', 'coordsystem', 'defacemask', 'dwi', 'eeg', 'epi', 'events', 'fieldmap', 'headshape', 'ieeg', 'inplaneT1', 'inplaneT2', 'magnitude', 'magnitude1', 'magnitude2', 'meg', 'phase1', 'phase2', 'phasediff', 'photo', 'physio', 'sbref', 'stim'
+cfg.datatype                = 'ieeg'; %string, can be any of 'FLAIR', 'FLASH', 'PD', 'PDT2', 'PDmap', 'T1map', 'T1rho', 'T1w', 'T2map', 'T2star', 'T2w', 'angio', 'bold', 'bval', 'bvec', 'channels', 'coordsystem', 'defacemask', 'dwi', 'eeg', 'epi', 'events', 'fieldmap', 'headshape', 'ieeg', 'inplaneT1', 'inplaneT2', 'magnitude', 'magnitude1', 'magnitude2', 'meg', 'phase1', 'phase2', 'phasediff', 'photo', 'physio', 'sbref', 'stim'
 % cfg.acq                     = string
 % cfg.ce                      = string
 % cfg.rec                     = string
@@ -114,16 +118,14 @@ cfg.channels.status_description = cell(size(ecog.labelimport.labels));  % OPTION
 clear chantype chanunuts chanstatus
 %% add participant info
 cfg.participants.age             = NaN;
-cfg.participants.sex             = 'm';
-cfg.participants.handedness      = 'right';
-cfg.participants.language        = 'engspa';
-cfg.participants.implantside     = 'bilateral';
-cfg.participants.implantelecs    = 'seeg';
+cfg.participants.sex             = 'n/a';
+cfg.participants.handedness      = 'n/a';
+cfg.participants.language        = 'n/a';
+cfg.participants.implantside     = 'n/a';
+cfg.participants.implantelecs    = 'n/a';
 
 %% get events from info
-info.events.Properties.VariableNames{1}='onset';
-info.events.Properties.VariableNames{3}='duration';
-cfg.events = info.events(:,[1:3,5]);
+cfg.events = info.events;
 
 %% add ieeg specific info
 cfg.ieeg.iEEGReference                   = 'scalp';% REQUIRED. General description of the reference scheme used and (when applicable) of location of the reference electrode in the raw recordings (e.g. "left mastoid”, “bipolar”, “T01” for electrode with name T01, “intracranial electrode on top of a grid, not included with data”, “upside down electrode”). If different channels have a different reference, this field should have a general description and the channel specific reference should be defined in the _channels.tsv file.
@@ -137,5 +139,8 @@ cfg.ieeg.MiscChannelCount                = 0;
 
 %% now do it
 data2bids_output = data2bids(cfg, ecog.ftrip)
+
+% In addition to BrainVision data, save as ecog.mat file
+save([erase(data2bids_output.outputfile,'vhdr'), 'mat'],'ecog','-v7.3')
 
 end
