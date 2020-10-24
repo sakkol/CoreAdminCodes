@@ -13,10 +13,7 @@ Sbj_Metadata.rawdata = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'ra
 Sbj_Metadata.params_dir = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'params');
 Sbj_Metadata.iEEG_data = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'iEEG_data');
 Sbj_Metadata.results = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'results');
-
-if strcmp(project_name,'Speech_Perception') || strcmp(project_name,'ObjectNaming') || strcmp(project_name,'EntrainSounds')
-    Sbj_Metadata.behavioral_root = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'behavioral');
-end
+Sbj_Metadata.behavioral_root = fullfile(Sbj_Metadata.data_root,project_name, sbj_ID, 'behavioral');
 
 Sbj_Metadata.BlockLists = makeBlockLists(Sbj_Metadata); % block names from the same subjects
 

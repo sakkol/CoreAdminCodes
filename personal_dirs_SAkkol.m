@@ -18,12 +18,12 @@ curr_block = Sbj_Metadata.BlockLists{2};
 
 %% create_elecinfo example, this can stay here for rapidity
 data_root = '/media/sakkol/HDD1/HBML/';
-sbj_ID = 'NS162';
+sbj_ID = 'NS163';
 
 cfg=[];
 cfg.subj_folder = fullfile(data_root,'DERIVATIVES','freesurfer',sbj_ID);
 cfg.fsaverage_dir = fullfile(data_root,'DERIVATIVES','freesurfer','fsaverage');
-cfg.FS_atlas_info = fullfile(data_root,'DERIVATIVES','freesurfer','freesurfer','Freesurfer_Atlas_Labels.xlsx');
+cfg.FS_atlas_info = fullfile(data_root,'DERIVATIVES','freesurfer','Freesurfer_Atlas_Labels.xlsx');
 create_elecInfo(sbj_ID, cfg)
 
 %% running iELVis functions if necessary
