@@ -28,7 +28,7 @@ else
         Sbj_Metadata.fsname = sbj_ID;
     else                            % if the name is like NS128_2, then put a "0" between "_" and "2"
         Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',[splsbj_ID{1} '_0' splsbj_ID{2}]);
-        Sbj_Metadata.fsname = sbj_ID;
+        Sbj_Metadata.fsname = [splsbj_ID{1} '_0' splsbj_ID{2}];
     end
 end
 if ~exist(Sbj_Metadata.freesurfer,'dir')
