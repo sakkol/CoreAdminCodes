@@ -21,13 +21,13 @@ else
     warning('EEGDAT column in BlockInfo sheet was not found, defaults are EEG1 and EEG2')
     params.EEGDAT = {'data.streams.EEG1','data.streams.EEG2'};
 end
-if any(strcmpi(BlockInfo.Properties.VariableNames,'ANALOGDATA'))
+if any(strcmpi(BlockInfo.Properties.VariableNames,'ANALOGDATA')) && ~strcmp(BlockInfo.ANALOGDATA,'')
     params.ANALOGDATA = BlockInfo.ANALOGDATA;
 end
-if any(strcmpi(BlockInfo.Properties.VariableNames,'DIGITALDATA'))
+if any(strcmpi(BlockInfo.Properties.VariableNames,'DIGITALDATA')) && ~strcmp(BlockInfo.DIGITALDATA,'')
     params.DIGITALDATA = BlockInfo.DIGITALDATA;
 end
-if any(strcmpi(BlockInfo.Properties.VariableNames,'task_type'))
+if any(strcmpi(BlockInfo.Properties.VariableNames,'task_type')) && ~strcmp(BlockInfo.task_type,'')
     params.task_type = BlockInfo.task_type;
 end
 
