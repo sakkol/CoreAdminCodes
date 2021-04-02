@@ -18,7 +18,7 @@ curr_block = Sbj_Metadata.BlockLists{2};
 
 %% create_elecinfo example, this can stay here for rapidity
 data_root = '/media/sakkol/HDD1/HBML/';
-sbj_ID = 'NS162_02';
+sbj_ID = 'NS170';
 
 cfg=[];
 cfg.subj_folder = fullfile(data_root,'DERIVATIVES','freesurfer',sbj_ID);
@@ -27,7 +27,7 @@ cfg.FS_atlas_info = fullfile(data_root,'DERIVATIVES','freesurfer','Freesurfer_At
 create_elecInfo(sbj_ID, cfg)
 
 %% running iELVis functions if necessary
-sbj_ID = 'NS162';
+sbj_ID = 'NS120';
 
 % for dykstra
 cfg=[];
