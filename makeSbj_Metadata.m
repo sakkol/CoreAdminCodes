@@ -18,25 +18,9 @@ Sbj_Metadata.behavioral_root = fullfile(Sbj_Metadata.data_root,project_name, sbj
 Sbj_Metadata.BlockLists = makeBlockLists(Sbj_Metadata); % block names from the same subjects
 
 %% Define Freesurfer folder
-splsbj_ID = strsplit(sbj_ID,'_');
-if length(splsbj_ID) == 1
-    Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',sbj_ID);
-    Sbj_Metadata.fsname = sbj_ID;
-else
-    if length(splsbj_ID{2}) > 1     % if the name is like NS128_02, this is also fine
-        Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',sbj_ID);
-        Sbj_Metadata.fsname = sbj_ID;
-    else                            % if the name is like NS128_2, then put a "0" between "_" and "2"
-        Sbj_Metadata.freesurfer = fullfile(main_root, 'DERIVATIVES','freesurfer',[splsbj_ID{1} '_0' splsbj_ID{2}]);
-        Sbj_Metadata.fsname = [splsbj_ID{1} '_0' splsbj_ID{2}];
-    end
-end
-if ~exist(Sbj_Metadata.freesurfer,'dir')
-    warning('There is no Freesurfer folder')
-    Sbj_Metadata.freesurfer = [];
-end
+[Sbj_Metadata.freesurfer, Sbj_Metadata.fsname] = find_freesurfer_dir_name(main_root, sbj_ID);
 
-% Define fsaverage folder
+%% Define fsaverage folder
 Sbj_Metadata.fsaverage_Dir = fullfile(main_root, 'DERIVATIVES','freesurfer','fsaverage');
 
 %% Find the electrode correspondence sheet
