@@ -7,6 +7,7 @@ for i = 1:length(searchExcel)
 end
 if ~exist('tpm_2','var') || sum(tpm_2) ~= 1
     warning('Either there is either no correspondence sheet or there are many of them. Check and run again')
+    labelfile=[];
 else
     labelfile = fullfile(freesurfer_dir,'elec_recon', searchExcel(tpm_2).name);
 end

@@ -10,7 +10,7 @@ data_root = '/media/sakkol/HDD1/HBML/';
 % project_name = 'Speech_Perception';
 % project_name = 'Auditory_Localizer';
 project_name = 'EntrainSounds';
-sbj_ID = 'LH001_2';
+sbj_ID = 'NS1LH001_248_2';
 Sbj_Metadata = makeSbj_Metadata(data_root, project_name, sbj_ID); % 'SAkkol_Stanford'
 
 %% Choose block
