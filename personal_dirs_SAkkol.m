@@ -16,6 +16,17 @@ Sbj_Metadata = makeSbj_Metadata(data_root, project_name, sbj_ID); % 'SAkkol_Stan
 %% Choose block
 curr_block = Sbj_Metadata.BlockLists{2};
 
+%% Create bulk directories for multiple subjects
+
+blockinfotable = readtable(fullfile(data_root,'PROJECTS_DATA',project_name,[project_name '_BlockInfo.xlsx']));
+
+subs = blockinfotable.sbj_ID;
+for s = 1:length(subs)
+    Sbj_Metadata = makeSbj_Metadata(data_root, project_name, subs{s}); % 'SAkkol_Stanford'
+    mkdir_Sbj_Metadata(Sbj_Metadata)
+end
+
+clear blockinfotable subs Sbj_Metadata
 %% create_elecinfo example, this can stay here for rapidity
 data_root = '/media/sakkol/HDD1/HBML/';
 sbj_ID = 'NS170';
