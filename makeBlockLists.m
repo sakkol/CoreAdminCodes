@@ -4,6 +4,6 @@ AllBlockInfo = readtable(fullfile(Sbj_Metadata.project_root,[Sbj_Metadata.projec
 BlockList = AllBlockInfo.BlockList(strcmpi(AllBlockInfo.sbj_ID,Sbj_Metadata.sbj_ID));
 
 if isempty(BlockList)
-    error('Subject %s does not have any block run in this task or BlockInfo sheet has not been updated and saved.',Sbj_Metadata.sbj_ID)
+    warning('Subject %s does not have any block run in this task or BlockInfo sheet has not been updated and saved.',Sbj_Metadata.sbj_ID)
 end
 end
