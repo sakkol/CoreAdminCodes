@@ -99,19 +99,30 @@ ieeg.corrSheet_import = corrSheet_import;
 % ieeg.spike_chans        = labelimport.labels(labelimport.spikey==1);
 
 %% Write the sidecar json file
+
 fprintf('Creating sidecar JSON file...\n');
 json_sidecar = [];
 json_sidecar.TaskName = Sbj_MetadataBIDS.task;
 json_sidecar.TaskDescription = Sbj_MetadataBIDS.task;
 json_sidecar.Modality = 'ieeg';
-json_sidecar.RepetitionTime = 1;  % Sampling rate - update based on actual data
+json_sidecar.RepetitionTime = 1;
 json_sidecar.EchoTime = 0;
-json_sidecar.SamplingFrequency = ieeg.ftrip.fsample;  % Update based on actual sampling rate
+json_sidecar.SamplingFrequency = ieeg.ftrip.fsample;
 json_sidecar.PowerLineFrequency = 60;
-json_sidecar.Manufacturer = 'Unknown';
-json_sidecar.ManufacturersModelName = 'Unknown';
-json_sidecar.InstitutionName = '';
-json_sidecar.InstitutionAddress = '';
+
+% get the BlockInfo if there is one
+if exist(fullfile(Sbj_MetadataBIDS.project_root,[Sbj_MetadataBIDS.task '_BlockInfo.xlsx']),"file")
+    blockinfo = readtable(fullfile(Sbj_MetadataBIDS.project_root,[Sbj_MetadataBIDS.task '_BlockInfo.xlsx']));
+    json_sidecar.Manufacturer           = blockinfo.Manufacturer;
+    json_sidecar.ManufacturersModelName = blockinfo.ManufacturersModelName;
+    json_sidecar.InstitutionName        = blockinfo.InstitutionName;
+    json_sidecar.InstitutionAddress     = blockinfo.InstitutionAddress;
+else
+    json_sidecar.Manufacturer           = 'Unknown';
+    json_sidecar.ManufacturersModelName = 'Unknown';
+    json_sidecar.InstitutionName        = 'Unknown';
+    json_sidecar.InstitutionAddress     = 'Unknown';
+end
 
 json_sidecar_file = Sbj_MetadataBIDS.ieeg.json;
 bids_create_sidecar_json(json_sidecar, json_sidecar_file);
