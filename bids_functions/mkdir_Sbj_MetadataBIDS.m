@@ -20,6 +20,10 @@ if ~exist(Sbj_MetadataBIDS.anat_dir,'dir')
     mkdir(Sbj_MetadataBIDS.anat_dir)
 end
 
+if ~exist(Sbj_MetadataBIDS.beh_dir,'dir')
+    mkdir(Sbj_MetadataBIDS.beh_dir)
+end
+
 if ~exist(Sbj_MetadataBIDS.physio_dir,'dir')
     mkdir(Sbj_MetadataBIDS.physio_dir)
 end
